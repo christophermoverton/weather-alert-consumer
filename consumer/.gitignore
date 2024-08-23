@@ -1,0 +1,2 @@
+# Ignore MongoDB data files
+data/mongo/

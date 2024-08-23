@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    networks:
+      - kafka-network
+    volumes:
+      - ./data/mongo:/data/db
+
+  mongo-client:
+    image: mongo:4.4
+    networks:
+      - kafka-network
+    depends_on:
+      - mongo
+    entrypoint: [ "sleep", "infinity" ]  # Keeps the container running
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - mongo
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka-broker.mycompany.com:9092  # Kafka broker address
+    networks:
+      - kafka-network
+    volumes:
+      - ./consumer:/app
+
+networks:
+  kafka-network:
+    external: true  # This refers to the existing external network where Kafka is running
