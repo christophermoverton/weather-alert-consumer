@@ -91,6 +91,46 @@ This project is intended to work alongside the [docker_kafka_weatheralert](https
 3. **Start the Consumer**:
    Run this project's Docker containers. The consumer will automatically start listening to the Kafka topic for new weather alerts and store them in MongoDB.
 
+### Verifying MongoDB Database, Collections, and Entries
+
+To verify that the consumer is storing the weather alerts in MongoDB correctly, you can connect to the MongoDB container and use the MongoDB shell. Here’s how:
+
+1. **Connect to the MongoDB Container**:
+   Use the following command to open a bash shell inside the MongoDB container. Replace `<docker container id or name>` with your actual MongoDB container ID or name:
+   ```bash
+   sudo docker exec -it <docker container id or name> /bin/bash
+   ```
+
+2. **Start the MongoDB Shell**:
+   Once inside the container, start the MongoDB shell by running:
+   ```bash
+   mongo
+   ```
+
+3. **Verify the Database**:
+   In the MongoDB shell, list the available databases to ensure that the weather alerts database exists:
+   ```bash
+   show dbs
+   ```
+
+4. **Switch to the Weather Alerts Database**:
+   Switch to the database where the weather alerts are stored (assuming it's named `weather_alerts_db`):
+   ```bash
+   use weather_alerts_db
+   ```
+
+5. **List the Collections**:
+   List the collections in the `weather_alerts_db` database:
+   ```bash
+   show collections
+   ```
+
+6. **Check the Stored Entries**:
+   To see the entries stored in the `alerts` collection, run:
+   ```bash
+   db.alerts.find().pretty()
+   ```
+
 ### Testing the Integration:
 
 - **Verify Alerts in MongoDB**:
@@ -122,4 +162,3 @@ If you encounter issues with MongoDB storage (e.g., unable to delete files due t
 ## Conclusion
 
 This project demonstrates the use of Docker to run a Kafka consumer that processes weather alerts and stores them in MongoDB. By using Docker volumes, MongoDB data can persist across container restarts, and the system can be scaled and managed with ease. It is designed to integrate with the Kafka weather alert producer found in the [docker_kafka_weatheralert](https://github.com/christophermoverton/docker_kafka_weatheralert) repository.
-
