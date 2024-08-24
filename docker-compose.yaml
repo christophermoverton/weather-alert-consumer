@@ -5,9 +5,12 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - kafka-network
+      kafka-network:
+        ipv4_address: 172.20.0.4
+
     volumes:
       - ./data/mongo:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d  # Volume to execute the init script
 
   mongo-client:
     image: mongo:4.4
