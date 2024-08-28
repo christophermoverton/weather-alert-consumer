@@ -1,3 +1,5 @@
+db = db.getSiblingDB('weather_alerts_db');  // Switch to the desired database
+
 db.createUser({
     user: "monitorUser",
     pwd: "monitorPassword",
@@ -7,3 +9,10 @@ db.createUser({
     ]
   });
   
+  db.createUser({
+    user: "dataOperator",
+    pwd: "securePassword",
+    roles: [
+      { role: "readWrite", db: "weather_alerts_db" }
+    ]
+});
